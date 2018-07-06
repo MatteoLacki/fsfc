@@ -9,7 +9,7 @@ import csv
 #     result_path = 'diff.csv'
 
 _, A, B = sys.argv
-    result_path = 'diff.csv'
+result_path = 'diff.csv'
 
 # A = 'test/A'
 # B = 'test/B'
