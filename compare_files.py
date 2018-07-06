@@ -1,5 +1,5 @@
 import os
-import sys
+# import sys
 import csv
 
 # try:
@@ -8,14 +8,12 @@ import csv
 #     _, A, B = sys.argv
 #     result_path = 'diff.csv'
 
-_, A, B = sys.argv
-result_path = 'diff.csv'
-
 # A = 'test/A'
 # B = 'test/B'
 
 def rm_root(path, root):
     return path[len(root):]
+
 
 def make_hashable(dir, subdir, files, root):
     dir = rm_root(dir, root)
@@ -44,20 +42,34 @@ def iter_path(root):
                 else:
                     yield rm_root(dir, root), 0
 
-paths1 = set(iter_path(A))
-paths2 = set(iter_path(B))
-A_B = dict(paths1 - paths2)
-B_A = dict(paths2 - paths1)
 
-def csv_rows():
+def diff_comparison(A_B, B_A):
     for path in set(A_B.keys()) | set(B_A.keys()):
         yield path, A_B.get(path, "NA"), B_A.get(path, "NA")
+
+
+def compare_paths(A, B):
+    """Compare the sizes and paths.
+
+    Args:
+        A (str): first folder.
+        B (str): first folder.
+    Returns:
+        tuple of sets
+    """
+    paths1 = set(iter_path(A))
+    paths2 = set(iter_path(B))
+    A_B = dict(paths1 - paths2)
+    B_A = dict(paths2 - paths1)
+    return diff_comparison(A_B, B_A)
+
 
 # if not os.path.exists(result_path):
 #     os.makedirs(os.dirname(result_path))
 
-with open(result_path, 'w') as csvfile:
-    writer = csv.writer(csvfile)
-    writer.writerow(['path', A, B])
-    for row in csv_rows():
-        writer.writerow(row)
+def write_2_csv(A, B, comparison, result_path):
+    with open(result_path, 'w') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['path', A, B])
+        for row in comparison:
+            writer.writerow(row)
