@@ -23,10 +23,13 @@ def make_hashable(dir, subdir, files, root):
 
 
 def filepath_size(dir, f, root):
-    file_path = os.path.join(dir, f)
-    size = os.path.getsize(file_path)
-    file_path = rm_root(file_path, root)
-    return file_path, size
+	try:
+		file_path = os.path.join(dir, f)
+		size = os.path.getsize(file_path)
+		file_path = rm_root(file_path, root)
+		return file_path, size
+	except FileNotFoundError:
+		return file_path, "FAIL"
 
 
 def iter_path(root):
