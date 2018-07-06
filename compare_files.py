@@ -23,13 +23,13 @@ def make_hashable(dir, subdir, files, root):
 
 
 def filepath_size(dir, f, root):
-	try:
-		file_path = os.path.join(dir, f)
-		size = os.path.getsize(file_path)
-		file_path = rm_root(file_path, root)
-		return file_path, size
-	except FileNotFoundError:
-		return file_path, "FAIL"
+    try:
+        file_path = os.path.join(dir, f)
+        size = os.path.getsize(file_path)
+        file_path = rm_root(file_path, root)
+        return file_path, size
+    except FileNotFoundError:
+        return file_path, "FAILED GETTING FILE SIZE"
 
 
 def iter_path(root):
@@ -69,10 +69,17 @@ def compare_paths(A, B):
 
 # if not os.path.exists(result_path):
 #     os.makedirs(os.dirname(result_path))
-
-def write_2_csv(A, B, comparison, result_path):
-    with open(result_path, 'w') as csvfile:
+def write_2_csv(result_path, row_iterator, column_names=[]):
+    with open(result_path, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow(['path', A, B])
-        for row in comparison:
+        writer.writerow(column_names)
+        for row in row_iterator:
             writer.writerow(row)
+
+
+# def write_2_csv(A, B, comparison, result_path):
+#     with open(result_path, 'w') as csvfile:
+#         writer = csv.writer(csvfile)
+#         writer.writerow(['path', A, B])
+#         for row in comparison:
+#             writer.writerow(row)

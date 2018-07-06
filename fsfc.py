@@ -5,4 +5,7 @@ _, A, B = sys.argv
 result_path = 'diff.csv'
 
 comparison = compare_paths(A, B)
-write_2_csv(A, B, comparison, result_path)
+write_2_csv(result_path, comparison, ['path', A, B])
+# write_2_csv(A, B, comparison, result_path)
+
+
